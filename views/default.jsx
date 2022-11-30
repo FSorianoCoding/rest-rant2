@@ -10,6 +10,7 @@ function Def (html) {
             </head>
             <body>
                 {html.children}
+                <footer className='footer'></footer>
             </body>
         </html>
     )
