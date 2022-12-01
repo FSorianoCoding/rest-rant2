@@ -1,10 +1,12 @@
 const router = require('express').Router()
 const places = require('../models/places')
 
+// INDEX
 router.get('/', (req, res) => {
     res.render('places/index', { places })
 })
 
+// CREATE
 router.post('/', (req, res) => {
     // console.log(req.body)
     if (!req.body.pic) {
@@ -22,10 +24,12 @@ router.post('/', (req, res) => {
     res.redirect('/places')
 })
 
+// NEW
 router.get('/new', (req, res) => {
     res.render('places/new')
 })
 
+// SHOW
 router.get('/:id', (req, res) => {
     let id = Number(req.params.id)
     if (isNaN(id)) {
@@ -37,6 +41,7 @@ router.get('/:id', (req, res) => {
     }
 })
 
+// DELETE
 router.delete('/:id', (req, res) => {
     let id = Number(req.params.id)
     if (isNaN(id)) {
@@ -50,8 +55,17 @@ router.delete('/:id', (req, res) => {
     }
 })
 
+// EDIT
 router.get('/:id/edit', (req, res) => {
-    res.send('STUB GET places/:id/edit')
+    // res.send('STUB GET places/:id/edit')
+    let id = Number(req.params.id)
+    if (isNaN(id)) {
+        res.render('error404')
+    } else if (!places[id]) {
+        res.render('error404')
+    } else {
+        res.render('places/edit', { place: places[id] })
+    }
 })
 
 module.exports = router
