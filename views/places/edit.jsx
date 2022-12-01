@@ -22,7 +22,7 @@ function edit_form (data) {
                             <label htmlFor='pic'>Place Picture</label>
                             <input 
                                 className='form-control' 
-                                type='url' 
+                                // type='url' 
                                 id='pic' 
                                 name='pic'
                                 value={data.place.pic}
@@ -30,7 +30,7 @@ function edit_form (data) {
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='form-group col-sm-6'>
+                        <div className='form-group col-sm-4'>
                             <label htmlFor='city'>City</label>
                             <input 
                                 className='form-control' 
@@ -39,7 +39,7 @@ function edit_form (data) {
                                 value={data.place.city}
                             />
                         </div>
-                        <div className='form-group col-sm-6'>
+                        <div className='form-group col-sm-4'>
                             <label htmlFor='state'>State</label>
                             <input 
                                 className='form-control' 
@@ -48,15 +48,15 @@ function edit_form (data) {
                                 value={data.place.state}
                             />
                         </div>
-                        {/* <div className="form-group col-sm-4">
+                        <div className="form-group col-sm-4">
                             <label htmlFor="founded">Founded Year</label>
-                            <input 
-                                type="number" 
+                            <input                                
                                 className="form-control" 
                                 id="founded" 
                                 name="founded"
+                                value={data.place.founded}
                             />
-                        </div> */}
+                        </div>
                     </div>
                     <div className='form-group'>
                         <label htmlFor='cuisines'>Cuisines</label>
@@ -68,7 +68,7 @@ function edit_form (data) {
                             required 
                         />
                     </div>
-                    <input className='btn btn-primary' type='submit' value='Add Place' />
+                    <input className='btn btn-primary' type='submit' value='Update Place' />
                 </form>
             </main>
         </Def>
