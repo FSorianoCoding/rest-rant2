@@ -3,11 +3,16 @@ h1 {
     color: cornflowerblue;
 }
 
+h2 {
+    color: lightblue;
+}
+
 img {
     display: block;
     margin-left: auto;
     margin-right: auto;
     width: 75%;
+    height: 20em;
 }
 
 body {
@@ -18,8 +23,10 @@ body {
 main {
     margin-right: 20px;
     margin-left: 20px;
+    padding: 20px;
     background-color: white;
 } 
+
 .footer {
     flex-shrink: 0;
 }
@@ -47,4 +54,16 @@ nav a {
 nav a:hover {
     color: pink;
     text-decoration: none;
+}
+
+form {
+    display: inline;
+}
+
+.inactive {
+    color: gray;
+}
+
+.border {
+    border: 1px solid gray;
 }
