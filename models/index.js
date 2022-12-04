@@ -11,3 +11,4 @@ mongoose.connect(process.env.MONGO_URI, {
 // Right now, we just have one model, but soon, we'll have two, 
 // and it will be nice to access them at a single location.
 module.exports.Place = require('./places')
+module.exports.Comment = require('./comment')
