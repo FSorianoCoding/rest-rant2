@@ -119,12 +119,20 @@ router.delete('/:id', (req, res) => {
     //     // res.send('STUB DELETE places/:id')
     //     res.redirect('/places')
     // }
-    res.send('DELETE /places/:id stub')
+    // res.send('DELETE /places/:id stub')
+    db.Place.findByIdAndDelete(req.params.id)
+        .then(() => {
+            res.redirect('/places')
+        })
+        .catch(err => {
+            console.log('err', err)
+            res.render('error404')
+        })
 })
 
 // EDIT
 router.get('/:id/edit', (req, res) => {
-    res.send('GET places/:id/edit form stub')
+    // res.send('GET places/:id/edit form stub')
     // let id = Number(req.params.id)
     // if (isNaN(id)) {
     //     res.render('error404')
@@ -133,11 +141,39 @@ router.get('/:id/edit', (req, res) => {
     // } else {
     //     res.render('places/edit', { place: places[id] })
     // }
+    db.Place.findById(req.params.id)
+        .then(place => {
+            res.render('places/edit', { place })
+        })
+        .catch(err => {
+            res.render('error404')
+        })
 })
 
-// CREATE RANT
-router.post('/:id/rant', (req, res) => {
-    res.send('GET /places/:id/rant stub')
+// CREATE COMMENT
+router.post('/:id/comment', (req, res) => {
+        // res.send('GET /places/:id/comment stub')
+    console.log(req.body)
+    req.body.rant = req.body.rant ? true : false
+    db.Place.findById(req.params.id)
+        .then(place => {
+            db.Comment.create(req.body)
+                .then(comment => {
+                    place.comments.push(comment.id)
+                    // The save() method takes any changes we've made to the object since we 
+                    // fetched it with findById and writes them back to the Mongo database.
+                    place.save()
+                    .then(() => {
+                        res.redirect(`/places/${req.params.id}`)
+                    })
+                })
+                .catch(err => {
+                    res.render('error404')
+                })
+        })
+        .catch(err => {
+            res.render('error404')
+        })
 })
 
 // DELETE RANT
