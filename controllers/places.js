@@ -34,6 +34,9 @@ router.post('/', (req, res) => {
 
     // Sending in the req.body object works in lieu of spelling everything out
     // ONLY if the fields in your form are named exactly like your database fields.
+    if (req.body.pic === '') { req.body.pic = undefined }
+    if (req.body.city === '') { req.body.city = undefined }
+    if (req.body.state === '') { req.body.state = undefined }
     db.Place.create(req.body)
         .then(() => {
             res.redirect('/places')
@@ -69,9 +72,9 @@ router.get('/:id', (req, res) => {
     //     res.render('places/show', { place: places[id], id })
     // }
     db.Place.findById(req.params.id)
-        .populate('comments')
-        .then(place => {
-            console.log(place.comments)
+        .populate('comments')        
+        .then(place => {            
+            console.log("test send before", place.comments)
             res.render('places/show', { place })
         })
         .catch(err => {
@@ -104,7 +107,15 @@ router.put('/:id', (req, res) => {
     //     places[id] = req.body
     //     res.redirect(`/places/${id}`)
     // }
-    res.send('PUT /places/:id stub')
+    // res.send('PUT /places/:id stub')
+    db.Place.findByIdAndUpdate(req.params.id, req.body)
+        .then(() => {
+            res.redirect(`/places/${req.params.id}`)
+        })
+        .catch(err => {
+            console.log('err', err)
+            res.render('error404')
+        })
 })
   
 // DELETE
@@ -153,7 +164,8 @@ router.get('/:id/edit', (req, res) => {
 // CREATE COMMENT
 router.post('/:id/comment', (req, res) => {
         // res.send('GET /places/:id/comment stub')
-    console.log(req.body)
+    console.log('post comment', req.body)
+    if (req.body.author == '') {req.body.author = undefined }
     req.body.rant = req.body.rant ? true : false
     db.Place.findById(req.params.id)
         .then(place => {
@@ -165,6 +177,9 @@ router.post('/:id/comment', (req, res) => {
                     place.save()
                     .then(() => {
                         res.redirect(`/places/${req.params.id}`)
+                    })
+                    .catch(err => {
+                        res.render('error404')
                     })
                 })
                 .catch(err => {
@@ -178,7 +193,16 @@ router.post('/:id/comment', (req, res) => {
 
 // DELETE RANT
 router.delete('/:id/rant/:rantId', (req, res) => {
-    res.send('GET /places/:id/rant/:rantId stub')
+    // res.send('GET /places/:id/rant/:rantId stub')
+    db.Comment.findByIdAndDelete(req.params.rantId)
+        .then(() => {
+            console.log('Success')
+            res.redirect(`/places/${req.params.id}`)
+        })
+        .catch(err => {
+            console.log('err', err)
+            res.render('error404')
+        })
 })
 
 module.exports = router
